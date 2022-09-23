@@ -293,20 +293,20 @@ type OptionMapType map[string]interface{}
 
 // ParseArgOptions parse command line and returns args and options
 func ParseArgOptions() ([]string, OptionMapType, error) {
-	options := initOption()
+	options := InitOption()
 	goopt.Args = make([]string, 0, 4)
 	goopt.Description = func() string {
 		return "Simple tool for access OSS."
 	}
 	goopt.Parse(nil)
-	if err := checkOption(options); err != nil {
+	if err := CheckOption(options); err != nil {
 		return nil, nil, err
 	}
 
 	return goopt.Args, options, nil
 }
 
-func initOption() OptionMapType {
+func InitOption() OptionMapType {
 	m := make(OptionMapType, len(OptionMap))
 	for name, option := range OptionMap {
 		switch option.optionType {
@@ -365,7 +365,7 @@ func makeNames(option Option) ([]string, error) {
 	return names, nil
 }
 
-func checkOption(options OptionMapType) error {
+func CheckOption(options OptionMapType) error {
 	for name, optionInfo := range OptionMap {
 		if option, ok := options[name]; ok {
 			if optionInfo.optionType == OptionTypeInt64 {
